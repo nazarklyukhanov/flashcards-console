@@ -2,12 +2,27 @@ const inquirer = require('inquirer');
 const figlet = require('figlet');
 const chalk = require('chalk');
 const { EOL } = require('os');
-
+const gradient = require('gradient-string');
 class View {
   static async getUserInfo(themes) {
     // eslint-disable-next-line no-return-await
     return await inquirer.prompt([
-      { name: 'userName', type: 'input', message: 'Введите своё имя:' },
+      {
+        name: 'userName',
+        type: 'input',
+        message: 'Введите своё имя:',
+        validate: (input) => {
+          const nameRegex = /^[A-Za-zА-Яа-яЁё\s\-']{2,30}$/;
+
+          if (!input || input.trim() === '') {
+            return 'Имя не может быть пустым';
+          }
+          if (!nameRegex.test(input.trim())) {
+            return 'Имя может содержать только буквы, пробелы, дефисы';
+          }
+          return true;
+        },
+      },
       {
         name: 'theme',
         type: 'list',
@@ -18,8 +33,8 @@ class View {
   }
 
   static async greetUser(username) {
-    const text = figlet.textSync(` ${EOL}Хорошей игры, дорогой друг, ${username} !`, {
-      font: 'ANSI Shadow',
+    const text = figlet.textSync(` ${EOL}        Good luck, ${username} !`, {
+      font: 'Bloody',
       horizontalLayout: 'default',
       verticalLayout: 'default',
       whitespaceBreak: true,
@@ -30,26 +45,23 @@ class View {
       .map((line) => `    ${line}`)
       .join('\n');
 
-    console.log(chalk.green(padded));
+    console.log(gradient.rainbow.multiline(padded));
   }
 
   static async greetings() {
-    const data = await new Promise((resolve, reject) => {
-      figlet('Flashcards Game', { font: 'ANSI Shadow' }, (err, txt) =>
-        err ? reject(err) : resolve(txt),
-      );
-    });
+    (async () => {
+      const data = await new Promise((resolve, reject) => {
+        figlet('                Flashcards', { font: 'Bloody' }, (err, txt) =>
+          err ? reject(err) : resolve(txt),
+        );
+      });
+      console.log(gradient.rainbow.multiline(data));
+    })();
 
-    const lines = data.split('\n');
-    for (const line of lines) {
-      console.log(chalk.hex('#fff87dff')(line));
-      await new Promise((r) => setTimeout(r, 200));
-    }
-    
     const terminalWidth = process.stdout.columns || 80;
-    const msg = `ДОБРО ПОЖАЛОВАТЬ В ИГРУ!`;
-    const padding = Math.max(0, Math.floor((terminalWidth - msg.length) / 3.2));
-    console.log(' '.repeat(padding) + chalk.hex('#fff87dff')(msg));
+    const msg = `ДОБРО ПОЖАЛОВАТЬ В ИГРУ! \n\n`;
+    const padding = Math.max(0, Math.floor((terminalWidth - msg.length) / 2.05));
+    console.log(' '.repeat(padding) + chalk.hex('#ece13dff')(msg));
 
     process.stdout.write(EOL);
     await new Promise((r) => setTimeout(r, 50));
@@ -78,29 +90,25 @@ class View {
       console.log(
         chalk.greenBright(
           `${EOL}      
-          
           МОЛОДЕЦ!
-
 ${EOL}`,
         ),
       );
     } else {
       console.log(
         chalk.red(
-          `${EOL}                   /|_
-                 
-               Ты ПРОИГРАЛ :(.
+          `${EOL} 
+          НЕВЕРНЫЙ ОТВЕТ!
     ${EOL}`,
         ),
       );
     }
-    
   }
 
   static showResult(score, total) {
-    if (score === 0) {
-      const text = figlet.textSync(` Fail `, {
-        font: 'ANSI Shadow',
+    if (score < 10) {
+      const text = figlet.textSync(` You Loser `, {
+        font: 'Bloody',
         horizontalLayout: 'default',
         verticalLayout: 'default',
         whitespaceBreak: true,
@@ -108,18 +116,34 @@ ${EOL}`,
 
       const padded = text
         .split('\n')
-        .map((line) => '    ' + line)
+        .map((line) => `    ${line}`)
         .join('\n');
-
+      console.log(
+        chalk.magenta(
+          `                           Не повезло, у тебя ${score} очков из ${total}${EOL}`,
+        ),
+      );
       console.log(chalk.red(padded));
-    } else if (score === total) {
+    } else if (score === 10) {
       const text = figlet.textSync(` You winner `, {
-        font: 'ANSI Shadow',
+        font: 'Bloody',
         horizontalLayout: 'default',
         verticalLayout: 'default',
         whitespaceBreak: true,
       });
-  
+
+      const padded = text
+        .split('\n')
+        .map((line) => `    ${line}`)
+        .join('\n');
+      console.log(
+        chalk.magenta(
+          `                           Ты молодец, у тебя ${score} очков из ${total}${EOL}`,
+        ),
+      );
+      console.log(chalk.green(padded));
+    }
+  }
 }
-}
-}
+
+module.exports = View;
