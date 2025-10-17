@@ -7,7 +7,22 @@ class View {
   static async getUserInfo(themes) {
     // eslint-disable-next-line no-return-await
     return await inquirer.prompt([
-      { name: 'userName', type: 'input', message: 'Введите своё имя:' },
+      {
+        name: 'userName',
+        type: 'input',
+        message: 'Введите своё имя:',
+        validate: (input) => {
+          const nameRegex = /^[A-Za-zА-Яа-яЁё\s\-']{2,30}$/;
+
+          if (!input || input.trim() === '') {
+            return 'Имя не может быть пустым';
+          }
+          if (!nameRegex.test(input.trim())) {
+            return 'Имя может содержать только буквы, пробелы, дефисы';
+          }
+          return true;
+        },
+      },
       {
         name: 'theme',
         type: 'list',
@@ -18,15 +33,12 @@ class View {
   }
 
   static async greetUser(username) {
-    const text = figlet.textSync(
-      ` ${EOL}                         Good luck, ${username} !`,
-      {
-        font: 'Bloody',
-        horizontalLayout: 'default',
-        verticalLayout: 'default',
-        whitespaceBreak: true,
-      },
-    );
+    const text = figlet.textSync(` ${EOL}        Good luck, ${username} !`, {
+      font: 'Bloody',
+      horizontalLayout: 'default',
+      verticalLayout: 'default',
+      whitespaceBreak: true,
+    });
 
     const padded = text
       .split('\n')
@@ -39,10 +51,8 @@ class View {
   static async greetings() {
     (async () => {
       const data = await new Promise((resolve, reject) => {
-        figlet(
-          '                                Flashcards',
-          { font: 'Bloody' },
-          (err, txt) => (err ? reject(err) : resolve(txt)),
+        figlet('                Flashcards', { font: 'Bloody' }, (err, txt) =>
+          err ? reject(err) : resolve(txt),
         );
       });
       console.log(gradient.rainbow.multiline(data));
