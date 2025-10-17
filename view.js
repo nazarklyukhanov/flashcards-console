@@ -3,5 +3,6 @@ const figlet = require('figlet');
 const chalk = require('chalk');
 
 class View {
-    
+    static async
+
 }
