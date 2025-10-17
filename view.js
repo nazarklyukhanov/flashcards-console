@@ -73,7 +73,7 @@ class View {
     return userAnswer;
   }
 
-  static showMiddleRes(isTrue, q) {
+  static showMiddleRes(isTrue, q) {п
     if (isTrue) {
       console.log(
         chalk.greenBright(
@@ -87,7 +87,7 @@ ${EOL}`,
     } else {
       console.log(
         chalk.red(
-          `${EOL}                   /|_
+          `${EOL}
                  
                Ты ПРОИГРАЛ :(.
     ${EOL}`,
