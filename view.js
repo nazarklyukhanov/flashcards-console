@@ -45,7 +45,7 @@ class View {
       console.log(chalk.hex('#fff87dff')(line));
       await new Promise((r) => setTimeout(r, 200));
     }
-    
+
     const terminalWidth = process.stdout.columns || 80;
     const msg = `ДОБРО ПОЖАЛОВАТЬ В ИГРУ!`;
     const padding = Math.max(0, Math.floor((terminalWidth - msg.length) / 3.2));
@@ -94,7 +94,6 @@ ${EOL}`,
         ),
       );
     }
-    
   }
 
   static showResult(score, total) {
@@ -108,7 +107,7 @@ ${EOL}`,
 
       const padded = text
         .split('\n')
-        .map((line) => '    ' + line)
+        .map((line) => `    ${line}`)
         .join('\n');
 
       console.log(chalk.red(padded));
@@ -122,7 +121,7 @@ ${EOL}`,
 
       const padded = text
         .split('\n')
-        .map((line) => '    ' + line)
+        .map((line) => `    ${line}`)
         .join('\n');
 
       console.log(chalk.yellow(padded));
@@ -138,7 +137,7 @@ ${EOL}`,
 
       const paddedy = texts
         .split('\n')
-        .map((line) => '    ' + line)
+        .map((line) => `    ${line}`)
         .join('\n');
 
       console.log(chalk.white(paddedy));
@@ -152,7 +151,7 @@ ${EOL}`,
 
       const padded = text
         .split('\n')
-        .map((line) => '    ' + line)
+        .map((line) => `    ${line}`)
         .join('\n');
 
       console.log(chalk.yellow(padded));
@@ -166,16 +165,12 @@ ${EOL}`,
 
       const padded_1 = text_1
         .split('\n')
-        .map((line) => '    ' + line)
+        .map((line) => `    ${line}`)
         .join('\n');
 
       console.log(chalk.white(padded_1));
     }
-
-      
-      
-
-  
-
+  }
 }
-}
+
+module.exports = View;
