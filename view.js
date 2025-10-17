@@ -72,4 +72,54 @@ class View {
 
     return userAnswer;
   }
+
+  static showMiddleRes(isTrue, q) {
+    if (isTrue) {
+      console.log(
+        chalk.greenBright(
+          `${EOL}      
+          
+          МОЛОДЕЦ!
+
+${EOL}`,
+        ),
+      );
+    } else {
+      console.log(
+        chalk.red(
+          `${EOL}                   /|_
+                 
+               Ты ПРОИГРАЛ :(.
+    ${EOL}`,
+        ),
+      );
+    }
+    
+  }
+
+  static showResult(score, total) {
+    if (score === 0) {
+      const text = figlet.textSync(` Fail `, {
+        font: 'ANSI Shadow',
+        horizontalLayout: 'default',
+        verticalLayout: 'default',
+        whitespaceBreak: true,
+      });
+
+      const padded = text
+        .split('\n')
+        .map((line) => '    ' + line)
+        .join('\n');
+
+      console.log(chalk.red(padded));
+    } else if (score === total) {
+      const text = figlet.textSync(` You winner `, {
+        font: 'ANSI Shadow',
+        horizontalLayout: 'default',
+        verticalLayout: 'default',
+        whitespaceBreak: true,
+      });
+  
+}
+}
 }
