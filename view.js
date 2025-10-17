@@ -119,7 +119,63 @@ ${EOL}`,
         verticalLayout: 'default',
         whitespaceBreak: true,
       });
+
+      const padded = text
+        .split('\n')
+        .map((line) => '    ' + line)
+        .join('\n');
+
+      console.log(chalk.yellow(padded));
+      console.log(
+        chalk.magenta(`${EOL}Ты молодец, у тебя ${score} очков из ${total}${EOL}`),
+      );
+      const texts = figlet.textSync(` Game Over `, {
+        font: 'ANSI Shadow',
+        horizontalLayout: 'default',
+        verticalLayout: 'default',
+        whitespaceBreak: true,
+      });
+
+      const paddedy = texts
+        .split('\n')
+        .map((line) => '    ' + line)
+        .join('\n');
+
+      console.log(chalk.white(paddedy));
+    } else if (score > 0) {
+      const text = figlet.textSync(`  Amaizing!  `, {
+        font: 'ANSI Shadow',
+        horizontalLayout: 'default',
+        verticalLayout: 'default',
+        whitespaceBreak: true,
+      });
+
+      const padded = text
+        .split('\n')
+        .map((line) => '    ' + line)
+        .join('\n');
+
+      console.log(chalk.yellow(padded));
+      console.log(`${EOL}Конец игры - У тебя ${score} очков из ${total}${EOL}`);
+      const text_1 = figlet.textSync(` You winner `, {
+        font: 'ANSI Shadow',
+        horizontalLayout: 'default',
+        verticalLayout: 'default',
+        whitespaceBreak: true,
+      });
+
+      const padded_1 = text_1
+        .split('\n')
+        .map((line) => '    ' + line)
+        .join('\n');
+
+      console.log(chalk.white(padded_1));
+    }
+
+      
+      
+
   
-}
+
 }
 }
